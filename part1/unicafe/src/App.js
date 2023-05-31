@@ -2,38 +2,78 @@ import { useState } from 'react'
 
 // TODO STATISTIC LINE Exercise 1.10: unicafe step5
 
+// const StatisticLine = (props) => {
+//   if (props.text === "positive") {
+//     return (
+//       <p>{props.text} {props.value}%</p>
+//     )
+//   }
+//   return (
+//     <p>{props.text} {props.value}</p>
+//   )
+// }
+
+// const Statistics = (props) => {
+
+//   if (props.stats.all === 0) {
+//     return (
+//       <p>no feedback yet</p>
+//     )
+//   }
+
+//   return (
+//     <>
+//       <h1>statistics</h1>
+//       <StatisticLine text="good" value={props.stats.printGood} />
+//       <StatisticLine text="bad" value={props.stats.printBad} />
+//       <StatisticLine text="neutral" value={props.stats.printNeutral} />
+//       <StatisticLine text="total" value={props.stats.total} />
+//       <StatisticLine text="average" value={props.stats.average} />
+//       <StatisticLine text="positive" value={props.stats.positive} />
+//     </>
+//   )
+
+// }
+
 const StatisticLine = (props) => {
   if (props.text === "positive") {
     return (
-      <p>{props.text} {props.value}%</p>
-    )
+      <tr>
+        <th>{props.text}</th>
+        <td>{props.value}%</td>
+      </tr>
+    );
   }
   return (
-    <p>{props.text} {props.value}</p>
-  )
-}
+    <tr>
+      <th>{props.text}</th>
+      <td>{props.value}</td>
+    </tr>
+  );
+};
 
 const Statistics = (props) => {
-
   if (props.stats.all === 0) {
-    return (
-      <p>no feedback yet</p>
-    )
+    return <p>no feedback yet</p>;
   }
 
   return (
     <>
       <h1>statistics</h1>
-      <StatisticLine text="good" value={props.stats.printGood} />
-      <StatisticLine text="bad" value={props.stats.printBad} />
-      <StatisticLine text="neutral" value={props.stats.printNeutral} />
-      <StatisticLine text="total" value={props.stats.total} />
-      <StatisticLine text="average" value={props.stats.average} />
-      <StatisticLine text="positive" value={props.stats.positive} />
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={props.stats.printGood} />
+          <StatisticLine text="bad" value={props.stats.printBad} />
+          <StatisticLine text="neutral" value={props.stats.printNeutral} />
+          <StatisticLine text="total" value={props.stats.all} />
+          <StatisticLine text="average" value={props.stats.average} />
+          <StatisticLine text="positive" value={props.stats.positive} />
+        </tbody>
+      </table>
     </>
-  )
+  );
+};
 
-}
 
 const Button = ({ text, handleClick }) => {
   return (
