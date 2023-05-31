@@ -32,6 +32,10 @@ const App = () => {
   const printBad = bad;
   const printNeutral = neutral;
 
+  const all = good + bad + neutral;
+  const average = (good - bad) / all;
+  const positive = (good / all) * 100
+  
   return (
     <div>
       <h1>give feedback</h1>
@@ -42,7 +46,9 @@ const App = () => {
       <p>good {printGood}</p>
       <p>bad {printBad}</p>
       <p>neutral {printNeutral}</p>
-
+      <p>total {all}</p>
+      <p>average {average}</p>
+      <p>positive {positive}%</p>
     </div>
   )
 }
