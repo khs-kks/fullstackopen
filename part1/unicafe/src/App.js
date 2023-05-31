@@ -2,6 +2,12 @@ import { useState } from 'react'
 
 const Statistics = ({ printGood, printBad, printNeutral, all, average, positive }) => {
 
+  if (all === 0) {
+    return (
+      <p>no feedback yet</p>
+    )
+  }
+
   return (
     <>
       <h1>statistics</h1>
