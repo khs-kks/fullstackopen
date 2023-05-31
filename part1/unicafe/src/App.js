@@ -1,8 +1,21 @@
 import { useState } from 'react'
 
-const Statistics = ({ printGood, printBad, printNeutral, all, average, positive }) => {
+// TODO STATISTIC LINE Exercise 1.10: unicafe step5
 
-  if (all === 0) {
+const StatisticLine = (props) => {
+  if (props.text === "positive") {
+    return (
+      <p>{props.text} {props.value}%</p>
+    )
+  }
+  return (
+    <p>{props.text} {props.value}</p>
+  )
+}
+
+const Statistics = (props) => {
+
+  if (props.stats.all === 0) {
     return (
       <p>no feedback yet</p>
     )
@@ -11,15 +24,23 @@ const Statistics = ({ printGood, printBad, printNeutral, all, average, positive 
   return (
     <>
       <h1>statistics</h1>
-      <p>good {printGood}</p>
-      <p>bad {printBad}</p>
-      <p>neutral {printNeutral}</p>
-      <p>total {all}</p>
-      <p>average {average}</p>
-      <p>positive {positive}%</p>
+      <StatisticLine text="good" value={props.stats.printGood} />
+      <StatisticLine text="bad" value={props.stats.printBad} />
+      <StatisticLine text="neutral" value={props.stats.printNeutral} />
+      <StatisticLine text="total" value={props.stats.total} />
+      <StatisticLine text="average" value={props.stats.average} />
+      <StatisticLine text="positive" value={props.stats.positive} />
     </>
   )
 
+}
+
+const Button = ({ text, handleClick }) => {
+  return (
+
+    <button onClick={handleClick()}>{text}</button>
+
+  )
 }
 
 const App = () => {
@@ -50,21 +71,23 @@ const App = () => {
     return handleBadFeedback
   }
 
-  const printGood = good;
-  const printBad = bad;
-  const printNeutral = neutral;
 
-  const all = good + bad + neutral;
-  const average = (good - bad) / all;
-  const positive = (good / all) * 100
+  const statObject = {
+    printGood: good,
+    printBad: bad,
+    printNeutral: neutral,
+    all: good + bad + neutral,
+    average: (good - bad) / good + bad + neutral,
+    positive: (good / (good + bad + neutral)) * 100,
+  };
 
   return (
     <div>
       <h1>give feedback</h1>
-      <button onClick={handleGoodClick()}>good</button>
-      <button onClick={handleNeutralClick()}>neutral</button>
-      <button onClick={handleBadClick()}>bad</button>
-      <Statistics printGood={printGood} printBad={printBad} printNeutral={printNeutral} all={all} average={average} positive={positive} />
+      <Button text="good" handleClick={handleGoodClick} />
+      <Button text="neutral" handleClick={handleNeutralClick} />
+      <Button text="bad" handleClick={handleBadClick} />
+      <Statistics stats={statObject} />
     </div>
   )
 }
