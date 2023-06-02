@@ -10,11 +10,20 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    // axios
+    //   .get('http://localhost:3001/persons')
+    //   .then(response => {
+    //     setPersons(response.data)
+
+    async function fetchData() {
+      try {
+        const response = await axios.get('http://localhost:3001/persons')
         setPersons(response.data)
-      })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
   }, [])
   const handleSubmit = (event) => {
     event.preventDefault()
