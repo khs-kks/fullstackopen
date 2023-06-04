@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
-import axios from 'axios';
+import personService from './services/bckend.js';
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -10,18 +10,9 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    // axios
-    //   .get('http://localhost:3001/persons')
-    //   .then(response => {
-    //     setPersons(response.data)
-
-    async function fetchData() {
-      try {
-        const response = await axios.get('http://localhost:3001/persons')
-        setPersons(response.data)
-      } catch (error) {
-        console.log(error)
-      }
+    const fetchData = async () => {
+      const data = await personService.getAll()
+      setPersons(data)
     }
     fetchData()
   }, [])
@@ -40,10 +31,8 @@ const App = () => {
       const newPerson = { name: newName, number: newNumber };
 
       try {
-        const response = await axios.post("http://localhost:3001/persons", newPerson)
-        setPersons(persons.concat(response.data))
-        setNewName('')
-        setNewNumber('')
+        const data = await personService.create(newPerson)
+        setPersons(persons.concat(data))
       } catch (error) {
         console.log(error)
       }
@@ -62,13 +51,22 @@ const App = () => {
     setSearchTerm(event.target.value)
   }
 
+  const handleDeletePerson = async (id) => {
+    try {
+      await personService.remove(id)
+      setPersons(persons.filter(person => person.id !== id))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
       <PersonForm handleSubmit={handleSubmit} handleInputChange={handleInputChange} handleNumberChange={handleNumberChange} newName={newName} newNumber={newNumber} />
       <h2>Numbers</h2>
-      <Persons persons={persons} searchTerm={searchTerm}></Persons>
+      <Persons persons={persons} searchTerm={searchTerm} handleDeletePerson={handleDeletePerson}></Persons>
     </div >
   )
 }
