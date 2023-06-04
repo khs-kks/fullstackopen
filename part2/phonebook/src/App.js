@@ -52,11 +52,15 @@ const App = () => {
   }
 
   const handleDeletePerson = async (id) => {
-    try {
-      await personService.remove(id)
-      setPersons(persons.filter(person => person.id !== id))
-    } catch (error) {
-      console.log(error)
+    const personToDelete = persons.find(person => person.id === id);
+    const confirmDelete = window.confirm(`Delete ${personToDelete.name}?`);
+    if (confirmDelete) {
+      try {
+        await personService.remove(id)
+        setPersons(persons.filter(person => person.id !== id))
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
