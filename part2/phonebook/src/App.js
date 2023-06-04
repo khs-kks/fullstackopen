@@ -25,16 +25,28 @@ const App = () => {
     }
     fetchData()
   }, [])
-  const handleSubmit = (event) => {
+
+  // useEffect(() => {
+  //   setNewName('')
+  //   setNewNumber('')
+  // }, [persons])
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     const nameToAdd = newName;
     if (persons.some(person => person.name === nameToAdd)) {
       alert(`${nameToAdd} is already added to the phonebook`)
     } else {
-      setPersons(persons.concat({ name: newName, number: newNumber }))
-      setNewName('')
-      setNewNumber('')
+      const newPerson = { name: newName, number: newNumber };
+
+      try {
+        const response = await axios.post("http://localhost:3001/persons", newPerson)
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -54,7 +66,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
-      <PersonForm handleSubmit={handleSubmit} handleInputChange={handleInputChange} handleNumberChange={handleNumberChange} />
+      <PersonForm handleSubmit={handleSubmit} handleInputChange={handleInputChange} handleNumberChange={handleNumberChange} newName={newName} newNumber={newNumber} />
       <h2>Numbers</h2>
       <Persons persons={persons} searchTerm={searchTerm}></Persons>
     </div >
