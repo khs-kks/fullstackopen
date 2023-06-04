@@ -17,16 +17,30 @@ const App = () => {
     fetchData()
   }, [])
 
-  // useEffect(() => {
-  //   setNewName('')
-  //   setNewNumber('')
-  // }, [persons])
+  useEffect(() => {
+    setNewName('')
+    setNewNumber('')
+  }, [persons])
   const handleSubmit = async (event) => {
     event.preventDefault()
 
     const nameToAdd = newName;
-    if (persons.some(person => person.name === nameToAdd)) {
-      alert(`${nameToAdd} is already added to the phonebook`)
+    const existingPerson = persons.find(person => person.name === nameToAdd)
+
+    if (existingPerson) {
+      // If the person already exists, ask the user to confirm updating the number
+      const confirmUpdate = window.confirm(`${nameToAdd} is already added to the phonebook, replace the old number with a new one?`);
+
+      if (confirmUpdate) {
+        const updatedPerson = { ...existingPerson, number: newNumber };
+
+        try {
+          const data = await personService.update(existingPerson.id, updatedPerson)
+          setPersons(persons.map(person => person.id === existingPerson.id ? data : person))
+        } catch (error) {
+          console.log(error)
+        }
+      }
     } else {
       const newPerson = { name: newName, number: newNumber };
 
@@ -38,6 +52,7 @@ const App = () => {
       }
     }
   }
+
 
   const handleInputChange = (event) => {
     setNewName(event.target.value)
