@@ -3,11 +3,13 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import personService from './services/bckend.js';
+import Notification from './components/Notification';
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const [notifyMessage, setNotifyMessage] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +39,10 @@ const App = () => {
         try {
           const data = await personService.update(existingPerson.id, updatedPerson)
           setPersons(persons.map(person => person.id === existingPerson.id ? data : person))
+          setNotifyMessage(`Updated ${data.name}`)
+          setTimeout(() => {
+            setNotifyMessage(null)
+          }, 5000)
         } catch (error) {
           console.log(error)
         }
@@ -47,6 +53,10 @@ const App = () => {
       try {
         const data = await personService.create(newPerson)
         setPersons(persons.concat(data))
+        setNotifyMessage(`Added ${data.name}`)
+        setTimeout(() => {
+          setNotifyMessage(null)
+        }, 5000)
       } catch (error) {
         console.log(error)
       }
@@ -73,6 +83,10 @@ const App = () => {
       try {
         await personService.remove(id)
         setPersons(persons.filter(person => person.id !== id))
+        setNotifyMessage(`Deleted ${personToDelete.name}`)
+        setTimeout(() => {
+          setNotifyMessage(null)
+        }, 5000)
       } catch (error) {
         console.log(error)
       }
@@ -82,6 +96,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notifyMessage} />
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
       <PersonForm handleSubmit={handleSubmit} handleInputChange={handleInputChange} handleNumberChange={handleNumberChange} newName={newName} newNumber={newNumber} />
       <h2>Numbers</h2>
