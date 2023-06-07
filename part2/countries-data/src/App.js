@@ -7,6 +7,8 @@ function App() {
   const [countries, setCountries] = useState(null);
   const [query, setQuery] = useState('');
   const [filteredCountries, setFilteredCountries] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
 
 
 
@@ -33,11 +35,22 @@ function App() {
   const handleSearch = (event) => {
     setQuery(event.target.value);
   }
+  const handleShowCountry = (country) => {
+    setSelectedCountry(country);
+  };
 
   return (
     <div>
       <Search value={query} handleSearch={handleSearch} />
-      {filteredCountries && <Result countries={filteredCountries} />}
+      {/* {filteredCountries && <Result countries={filteredCountries} />} */}
+      {selectedCountry ? (
+        <div>
+          <button onClick={() => setSelectedCountry(null)}>back</button>
+          <Result countries={[selectedCountry]} handleShowCountry={handleShowCountry} />
+        </div>
+      ) : (
+        filteredCountries && <Result countries={filteredCountries} handleShowCountry={handleShowCountry} />
+      )}
     </div>
   );
 }
