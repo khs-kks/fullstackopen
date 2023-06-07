@@ -45,6 +45,11 @@ const App = () => {
           }, 5000)
         } catch (error) {
           console.log(error)
+          setNotifyMessage(`Information of ${updatedPerson.name} has already been removed from server`)
+          setTimeout(() => {
+            setNotifyMessage(null)
+          }, 5000)
+          setPersons(persons.filter(person => person.id !== existingPerson.id))
         }
       }
     } else {
@@ -59,6 +64,10 @@ const App = () => {
         }, 5000)
       } catch (error) {
         console.log(error)
+        // setNotifyMessage(`Information of ${data.name} has already been removed from server`)
+        // setTimeout(() => {
+        //   setNotifyMessage(null)
+        // }, 5000)
       }
     }
   }
@@ -89,6 +98,11 @@ const App = () => {
         }, 5000)
       } catch (error) {
         console.log(error)
+        setNotifyMessage(`Person has already been removed from server`)
+        setTimeout(() => {
+          setNotifyMessage(null)
+        }, 5000)
+        setPersons(persons.filter(person => person.id !== id))
       }
     }
   }
