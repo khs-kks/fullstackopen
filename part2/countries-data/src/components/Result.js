@@ -15,7 +15,7 @@ const Result = ({ countries, handleShowCountry }) => {
         <ul>
           {countries.map(country => (
             <li key={country.name.common}>
-              {country.name.common}
+              <span>{country.name.common}</span>
               <button onClick={() => handleShowCountry(country)}>show</button>
             </li>
           ))}

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import countriesService from './services/countriesService';
 import Search from './components/Search';
 import Result from './components/Result';
-// import './App.css';
+import './App.css';
 function App() {
 
   const [countries, setCountries] = useState(null);
@@ -33,6 +33,7 @@ function App() {
 
   const handleSearch = (event) => {
     setQuery(event.target.value);
+    setSelectedCountry(null);
   }
   const handleShowCountry = (country) => {
     setSelectedCountry(country);
@@ -40,7 +41,7 @@ function App() {
 
   return (
     <div className="App">
-      <Search value={query} handleSearch={handleSearch} />
+      <Search value={query} handleSearch={handleSearch} selectedCountry={selectedCountry} />
       {/* {filteredCountries && <Result countries={filteredCountries} />} */}
       {selectedCountry ? (
         <div>

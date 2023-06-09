@@ -1,8 +1,16 @@
-const Search = ({ value, handleSearch }) => {
+const Search = ({ value, handleSearch, selectedCountry }) => {
     return (
         <>
-        <label htmlFor="search">Look for a country: </label>
-        <input id="search" type="text" value={value} onChange={handleSearch} />
+            {!selectedCountry && (
+                <>
+                    <label htmlFor="search-input">Find countries</label>
+                    <br />
+                    <input id="search-input" type="text" value={value} onChange={handleSearch} />
+
+                </>
+            )}
+
+
         </>
     );
 }
