@@ -23,7 +23,7 @@ const Result = ({ countries, handleShowCountry }) => {
       )}
 
       {singleCountry && (
-        <div>
+        <div className="Country">
           <h1>{countries[0].name.common}</h1>
           <p>capital {countries[0].capital}</p>
           <p>area {countries[0].area}</p>
@@ -33,7 +33,7 @@ const Result = ({ countries, handleShowCountry }) => {
               <li key={language}>{language}</li>
             ))}
           </ul>
-          <img src={countries[0].flags.png} alt={countries[0].name.common} />
+          <img className="Country-img" src={countries[0].flags.png} alt={countries[0].name.common} />
         </div>
       )}
     </>

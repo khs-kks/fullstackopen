@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import countriesService from './services/countriesService';
 import Search from './components/Search';
 import Result from './components/Result';
+// import './App.css';
 function App() {
 
   const [countries, setCountries] = useState(null);
   const [query, setQuery] = useState('');
   const [filteredCountries, setFilteredCountries] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
-
-
 
 
   useEffect(() => {
@@ -25,7 +24,7 @@ function App() {
       const filtered = countries.filter(country => country.name.common.toLowerCase().includes(query.toLowerCase()));
       setFilteredCountries(filtered);
     }
-  }, [query]);
+  }, [query, countries]);
 
 
   if (!countries) {
@@ -40,7 +39,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="App">
       <Search value={query} handleSearch={handleSearch} />
       {/* {filteredCountries && <Result countries={filteredCountries} />} */}
       {selectedCountry ? (
@@ -49,7 +48,10 @@ function App() {
           <Result countries={[selectedCountry]} handleShowCountry={handleShowCountry} />
         </div>
       ) : (
-        filteredCountries && <Result countries={filteredCountries} handleShowCountry={handleShowCountry} />
+
+        filteredCountries && <div className='Result'>
+          <Result countries={filteredCountries} handleShowCountry={handleShowCountry} />
+        </div>
       )}
     </div>
   );
