@@ -23,13 +23,13 @@ const Notification = ({ message }) => {
         marginBottom: 10,
     }
 
-    if (message.includes("!")) {
+    if (message.includes("Successfully")) {
         return (
-            <div style={notificationErrorStyle}>{message}</div>
+            <div style={notificationSuccessStyle}>{message}</div>
         )
     } else {
         return (
-            <div style={notificationSuccessStyle}>{message}</div>
+            <div style={notificationErrorStyle}>{message}</div>
         )
     }
 

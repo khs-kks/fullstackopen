@@ -39,14 +39,13 @@ const App = () => {
         try {
           const data = await personService.update(existingPerson.id, updatedPerson)
           setPersons(persons.map(person => person.id === existingPerson.id ? data : person))
-          setNotifyMessage(`Updated ${data.name}`)
+          setNotifyMessage(`Successfully updated ${data.name}`)
           setTimeout(() => {
             setNotifyMessage(null)
           }, 5000)
         } catch (error) {
-          console.log(error)
           // setNotifyMessage(`Information of ${updatedPerson.name} has already been removed from server`)
-          setNotifyMessage(error.response.data)
+          setNotifyMessage(error.response.data.error)
           setTimeout(() => {
             setNotifyMessage(null)
           }, 5000)
@@ -59,16 +58,15 @@ const App = () => {
       try {
         const data = await personService.create(newPerson)
         setPersons(persons.concat(data))
-        setNotifyMessage(`Added ${data.name}`)
+        setNotifyMessage(`Successfully added ${data.name}`)
         setTimeout(() => {
           setNotifyMessage(null)
         }, 5000)
-      } catch (error) {
-        console.log(error)
-        // setNotifyMessage(`Information of ${data.name} has already been removed from server`)
-        // setTimeout(() => {
-        //   setNotifyMessage(null)
-        // }, 5000)
+      } catch (error) { 
+        setNotifyMessage(`Error: ${error.response.data.error}`)
+        setTimeout(() => {
+          setNotifyMessage(null)
+        }, 5000)
       }
     }
   }
@@ -93,7 +91,7 @@ const App = () => {
       try {
         await personService.remove(id)
         setPersons(persons.filter(person => person.id !== id))
-        setNotifyMessage(`Deleted ${personToDelete.name}`)
+        setNotifyMessage(`Successfully deleted ${personToDelete.name}`)
         setTimeout(() => {
           setNotifyMessage(null)
         }, 5000)
