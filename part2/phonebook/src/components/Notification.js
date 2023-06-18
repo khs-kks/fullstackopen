@@ -23,7 +23,7 @@ const Notification = ({ message }) => {
         marginBottom: 10,
     }
 
-    if (message.includes("removed")) {
+    if (message.includes("!")) {
         return (
             <div style={notificationErrorStyle}>{message}</div>
         )

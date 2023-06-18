@@ -45,11 +45,12 @@ const App = () => {
           }, 5000)
         } catch (error) {
           console.log(error)
-          setNotifyMessage(`Information of ${updatedPerson.name} has already been removed from server`)
+          // setNotifyMessage(`Information of ${updatedPerson.name} has already been removed from server`)
+          setNotifyMessage(error.response.data)
           setTimeout(() => {
             setNotifyMessage(null)
           }, 5000)
-          setPersons(persons.filter(person => person.id !== existingPerson.id))
+          // setPersons(persons.filter(person => person.id !== existingPerson.id))
         }
       }
     } else {
